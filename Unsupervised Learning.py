@@ -69,6 +69,22 @@ sns.distplot(mallcustomers['Annual Income (k$)'])
 mtp.title('Annual Income (k$)')
 mtp.show()
 
+## K estimation using Elbow approach
+tot.withinss <- vector("numeric", length = 10)
+for (i in 1:10){
+    kDet <- kmeans(Kdata, i)
+    tot.withinss[i] <- kDet$tot.withinss
+}
+
+ggplot(as.data.frame(tot.withinss), aes(x = seq(1,10), y = tot.withinss)) + 
+    geom_point(col = "#F8766D") +    
+    geom_line(col = "#F8766D") + 
+    theme(axis.title.x.bottom = element_blank()) +
+    ylab("Within-cluster Sum of Squares") +
+    xlab("Number of Clusters") +
+    ggtitle("Elbow K Estimation")
+    
+    
 #K-means clustering : Chose k=5
 '''For feature Selection I picked only Annual Income and Spending score to create clusters unbiased with Gender and Age factors'''
 X= mallcustomers.iloc[:, [3,4]].values
